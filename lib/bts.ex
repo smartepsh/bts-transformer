@@ -5,7 +5,7 @@ defmodule BTS do
 
   @callback transform(String.t()) :: {:ok, String.t()} | {:error, atom()}
 
-  def transform(csv_path, target \\ "2019_H2") do
+  def transform(file_name, target \\ "2019_H2") do
     mod =
       case target do
         "2019_H2" ->
@@ -15,6 +15,6 @@ defmodule BTS do
           raise "not implement"
       end
 
-    mod.transform(csv_path)
+    mod.transform(file_name)
   end
 end
