@@ -1,4 +1,12 @@
 defmodule BTS.Utils do
+  def env(key) do
+    Application.get_env(:bts_transformer, key)
+  end
+
+  def env(key, sub_key) do
+    Application.get_env(:bts_transformer, key, []) |> Keyword.get(sub_key)
+  end
+
   def read_xlsx(file_path, sheet \\ 0) do
     {:ok, pid, parser} = Exoffice.parse(file_path, sheet)
 
