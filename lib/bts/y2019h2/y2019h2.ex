@@ -2,7 +2,7 @@ defmodule BTS.Y2019H2 do
   @behaviour BTS
 
   @impl true
-  def transform(csv_path) do
+  def transform(file_name, opts) do
     {:ok, csv_path}
   end
 end

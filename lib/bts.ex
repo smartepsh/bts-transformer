@@ -3,11 +3,13 @@ defmodule BTS do
   将收集到了数据表格，转换为目标格式，用于导入 BTS 系统。
   """
 
-  @callback transform(String.t()) :: {:ok, String.t()} | {:error, atom()}
+  @callback transform(String.t(), opts :: keyword()) :: {:ok, String.t()} | {:error, atom()}
 
-  def transform(file_name, target \\ "2019_H2") do
+  def transform(file_name, opts \\ []) do
+    season = Keyword.get(opts, :season, "2019_H2")
+
     mod =
-      case target do
+      case season do
         "2019_H2" ->
           Y2019H2
 
@@ -15,6 +17,6 @@ defmodule BTS do
           raise "not implement"
       end
 
-    mod.transform(file_name)
+    mod.transform(file_name, opts)
   end
 end
