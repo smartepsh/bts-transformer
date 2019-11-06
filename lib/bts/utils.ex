@@ -11,4 +11,26 @@ defmodule BTS.Utils do
 
     data
   end
+
+  def read_csv_stream!(file_name) do
+    file_name
+    |> Path.expand(env(:public_file_path))
+    |> File.stream!()
+    |> CSV.decode!()
+  end
+
+  def write_xlsx(data, file_name \\ nil) do
+    file_name =
+      if file_name do
+        file_name
+      else
+        {{_, month, day}, {hour, minute, second}} = DateTime.utc_now() |> NaiveDateTime.to_erl()
+
+        "bts-#{month}_#{day}_#{hour}_#{minute}_#{second}"
+      end
+
+    path = Path.expand("#{file_name}.xlsx", env(:public_file_path))
+
+    Elixlsx.write_to(data, path)
+  end
 end
