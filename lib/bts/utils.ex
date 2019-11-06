@@ -22,7 +22,7 @@ defmodule BTS.Utils do
 
   def read_csv_stream!(file_name) do
     file_name
-    |> Path.expand(env(:public_file_path))
+    |> Path.expand(env(:public_path))
     |> File.stream!()
     |> CSV.decode!()
   end
@@ -37,7 +37,7 @@ defmodule BTS.Utils do
         "bts-#{month}_#{day}_#{hour}_#{minute}_#{second}"
       end
 
-    path = Path.expand("#{file_name}.xlsx", env(:public_file_path))
+    path = Path.expand("#{file_name}.xlsx", env(:public_path))
 
     Elixlsx.write_to(data, path)
   end

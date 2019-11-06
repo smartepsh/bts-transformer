@@ -11,7 +11,7 @@ defmodule BTS do
     mod =
       case season do
         "2019_H2" ->
-          Y2019H2
+          BTS.Y2019H2
 
         _ ->
           raise "not implement"

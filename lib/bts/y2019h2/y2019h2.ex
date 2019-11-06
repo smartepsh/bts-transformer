@@ -30,7 +30,7 @@ defmodule BTS.Y2019H2 do
 
     indicator_titles =
       Meta.indicator_types()
-      |> Enum.reduce([], fn %{text: text}, acc ->
+      |> Enum.reduce([], fn {_, %{text: text}}, acc ->
         titles = Enum.map(brands, &"#{text}_#{&1}")
         acc ++ titles
       end)
@@ -43,7 +43,7 @@ defmodule BTS.Y2019H2 do
         acc ++ titles
       end)
 
-    title = indicator_titles ++ image_titles
+    title = ["编号", "提交 ID"] ++ indicator_titles ++ image_titles
 
     data = transform_addition_data(stream)
 
@@ -76,7 +76,7 @@ defmodule BTS.Y2019H2 do
   end
 
   defp transform_indicator(indicators, brands, data) do
-    Enum.reduce(indicators, [], fn %{range: ranges}, acc ->
+    Enum.reduce(indicators, [], fn {_, %{range: ranges}}, acc ->
       target_brands =
         ranges
         |> Enum.map(&Enum.at(data, &1 - 1))
