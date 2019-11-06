@@ -13,7 +13,7 @@ defmodule BTS.Y2019H2.Meta do
   @indicator_types [
     before_hint: %{text: "提示前", range: [11, 31, 32, 33]},
     brand_attention: %{text: "注意品牌", range: [11, 235, 236, 237]},
-    prefer_brand: %{text: "意向品牌", range: [13]}
+    prefer_brand: %{text: "意向品牌1", range: [13]}
   ]
 
   @brands [
