@@ -64,7 +64,13 @@ defmodule BTS.Y2019H2 do
     |> Enum.to_list()
   end
 
-  defp do_transform_addition([num, id | _] = data, brands, indicators, image_words, image_source) do
+  defp do_transform_addition(
+         [num, id | _] = data,
+         brands,
+         indicators,
+         image_words,
+         image_source
+       ) do
     IO.puts("transforming #{id} ing ...")
 
     data =
@@ -92,7 +98,7 @@ defmodule BTS.Y2019H2 do
   end
 
   defp transform_images(result, image_words, image_source, brands, data) do
-    image_data = get_image_data(image_source, data)
+    image_data = get_image_data(brands, image_source, data)
 
     image_result =
       Enum.reduce(brands, [], fn brand, acc ->
@@ -110,24 +116,23 @@ defmodule BTS.Y2019H2 do
     result ++ image_result
   end
 
-  defp get_image_data(image_source, data) do
+  defp get_image_data(brands, image_source, data) do
     image_source
-    |> Enum.chunk_every(68)
-    |> Enum.reduce([], fn [word_item | groups], acc ->
-      image_word = Enum.at(data, hd(word_item) - 1)
+    |> Enum.reduce([], fn [word_idx, start_idx | _groups], acc ->
+      image_word = Enum.at(data, word_idx - 1)
 
       if image_word == "" do
         acc
       else
         values =
-          groups
-          |> Enum.map(fn [idx, _, str] ->
-            value = data |> Enum.at(idx - 1) |> to_integer()
+          0..66
+          |> Enum.map(fn idx ->
+            value = data |> Enum.at(start_idx - 1 + idx) |> to_integer()
 
             %{
-              brand: get_brand(str),
               value: value,
-              image: image_word
+              image: image_word,
+              brand: Enum.at(brands, idx)
             }
           end)
           |> Enum.filter(&(&1.value < 4))
